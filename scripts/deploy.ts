@@ -1,18 +1,14 @@
 import { ethers } from "hardhat";
+const _numElements = 100;
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  const CappedSet = await ethers.getContractFactory("CappedSet");
+  const cappedSet = await CappedSet.deploy(_numElements);
 
-  const lockedAmount = ethers.utils.parseEther("0.001");
-
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
+  await cappedSet.deployed();
 
   console.log(
-    `Lock with ${ethers.utils.formatEther(lockedAmount)}ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
+    `Contract Address ------- ${cappedSet.address}`
   );
 }
 
